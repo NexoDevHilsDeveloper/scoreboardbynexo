@@ -1,0 +1,80 @@
+package scoreboardprefixxxxxxxes.main;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+
+public class main extends JavaPlugin implements Listener{
+	
+	static Scoreboard sb = Bukkit.getScoreboardManager().getNewScoreboard();
+	
+	public void onEnable() {
+		
+		this.getServer().getPluginManager().registerEvents(this, this);
+		
+		
+	}
+	
+	public void setScoreboard(Player p) {
+		
+		ScoreboardManager sm = Bukkit.getScoreboardManager();
+		final Scoreboard board = sm.getNewScoreboard();
+		final Objective obj = board.registerNewObjective("aaa", "bbb");
+		
+		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+		obj.setDisplayName("§9§lNexoCraft.net");
+		
+		obj.getScore("§1").setScore(12);
+		obj.getScore("§a?§9Dein Rang:").setScore(11);
+		if(p.hasPermission("sb.owner")) {
+			obj.getScore("§8»§4§lOwner").setScore(10);
+		}else if(p.hasPermission("sb.admin")) {
+			obj.getScore("§8»§c§lAdmin").setScore(10);
+		}else if(p.hasPermission("sb.freund")) {
+			obj.getScore("§8»§a§lFreund").setScore(10);
+		}else if(p.hasPermission("sb.developer")) {
+			obj.getScore("§8»§3§lDeveloper").setScore(10);
+		}else if(p.hasPermission("sb.builder")) {
+			obj.getScore("§8»§d§lBuilder").setScore(10);
+		}else if(p.hasPermission("sb.moderator")) {
+			obj.getScore("§8»§9§lModerator").setScore(10);
+		}else if(p.hasPermission("sb.supporter")) {
+			obj.getScore("§8»§e§lSupporter").setScore(10);
+		}else if(p.hasPermission("sb.youtube")) {
+			obj.getScore("§8»§5§lYouTuber").setScore(10);
+		}else if(p.hasPermission("sb.premium")) {
+			obj.getScore("§8»§6§lPremium").setScore(10);
+		}else {
+			obj.getScore("§8»§aSpieler").setScore(10);
+		}
+		obj.getScore("§2").setScore(9);
+		obj.getScore("§a?§9Spieler:").setScore(8);
+		obj.getScore("§8»§7" + Bukkit.getOnlinePlayers()).setScore(7);
+		obj.getScore("§3").setScore(6);
+		obj.getScore("§a?§9Discord:").setScore(5);
+		obj.getScore("§8»§b/discord").setScore(4);
+		obj.getScore("§4").setScore(3);
+		obj.getScore("§a?§9Kontostand:").setScore(2);
+		obj.getScore("§8»§b/money").setScore(1);
+			
+	}
+	@EventHandler
+	public void onJoin(PlayerJoinEvent e) {
+		Player p = e.getPlayer();
+		this.setScoreboard(p);
+	}
+	@EventHandler
+	public void onQuit(PlayerQuitEvent e) {
+		Player p = e.getPlayer();
+		this.setScoreboard(p);
+	}
+
+}
